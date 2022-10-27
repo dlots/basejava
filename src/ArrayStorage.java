@@ -1,32 +1,34 @@
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int _size = 0;
+    int currentSize = 0;
 
     void clear() {
-        for (int i = 0; i < _size; ++i) {
+        for (int i = 0; i < currentSize; i++) {
             storage[i] = null;
         }
-        _size = 0;
+        currentSize = 0;
     }
 
     void save(Resume r) {
-        if (_size == storage.length) {
+        if (currentSize == storage.length) {
             return;
         }
-        for (int i = 0; i < _size; ++i) {
+        for (int i = 0; i < currentSize; i++) {
             if (storage[i].uuid.equals(r.uuid)) {
                 return;
             }
         }
-        storage[_size] = r;
-        _size += 1;
+        storage[currentSize] = r;
+        currentSize++;
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < _size; ++i) {
+        for (int i = 0; i < currentSize; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
@@ -36,36 +38,27 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         int indexToDelete = 0;
-        for (; indexToDelete < _size; ++indexToDelete) {
+        for (; indexToDelete < currentSize; indexToDelete++) {
             if (storage[indexToDelete].uuid.equals(uuid)) {
                 break;
             }
         }
-        if (indexToDelete == _size) {
+        if (indexToDelete == currentSize) {
             return;
         }
-        for (int currentIndex = indexToDelete; currentIndex < _size - 1; ++currentIndex) {
-            storage[currentIndex] = storage[currentIndex + 1];
-        }
-        _size -= 1;
-        storage[_size] = null;
+        currentSize--;
+        storage[indexToDelete] = storage[currentSize];
+        storage[currentSize] = null;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] all = new Resume[_size];
-        for (int i = 0; i < _size; ++i) {
-            if (storage[i] == null) {
-                break;
-            }
-            all[i] = storage[i];
-        }
-        return all;
+        return Arrays.copyOf(storage, currentSize);
     }
 
     int size() {
-        return _size;
+        return currentSize;
     }
 }
