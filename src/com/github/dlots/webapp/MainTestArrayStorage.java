@@ -2,12 +2,13 @@ package com.github.dlots.webapp;
 
 import com.github.dlots.webapp.model.Resume;
 import com.github.dlots.webapp.storage.ArrayStorage;
+import com.github.dlots.webapp.storage.Storage;
 
 /**
  * Test for com.github.dlots.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
         final Resume r1 = new Resume();
