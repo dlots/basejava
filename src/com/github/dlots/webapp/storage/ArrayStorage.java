@@ -8,7 +8,9 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private final Resume[] storage = new Resume[10000];
+    private static final int STORAGE_LIMIT = 10000;
+
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size = 0;
 
     public void clear() {
@@ -21,50 +23,41 @@ public class ArrayStorage {
             System.out.println("Cannot save resume with uuid " + r.getUuid() + " (storage is full).");
             return;
         }
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(r.getUuid())) {
-                System.out.println("Cannot save resume with uuid " + r.getUuid() + " (uuid already exists).");
-                return;
-            }
+        if (getIndex(r.getUuid()) > -1) {
+            System.out.println("Cannot save resume with uuid " + r.getUuid() + " (already exists).");
+            return;
         }
         storage[size] = r;
         size++;
     }
 
     public void update(Resume r) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(r.getUuid())) {
-                storage[i] = r;
-                return;
-            }
+        final int index = getIndex(r.getUuid());
+        if (index > -1) {
+            storage[index] = r;
+            return;
         }
-        System.out.println("Tried to update resume with uuid " + r.getUuid() + " but it does not exist.");
+        System.out.println("Cannot update resume with uuid " + r.getUuid() + " (does not exist).");
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
+        final int index = getIndex(uuid);
+        if (index > -1) {
+            return storage[index];
         }
         System.out.println("Cannot get resume with uuid " + uuid + " (does not exist).");
         return null;
     }
 
     public void delete(String uuid) {
-        int indexToDelete = 0;
-        for (; indexToDelete < size; indexToDelete++) {
-            if (storage[indexToDelete].getUuid().equals(uuid)) {
-                break;
-            }
-        }
-        if (indexToDelete == size) {
-            System.out.println("Cannot delete resume with uuid " + uuid + " (does not exist).");
+        final int index = getIndex(uuid);
+        if (index > -1) {
+            size--;
+            storage[index] = storage[size];
+            storage[size] = null;
             return;
         }
-        size--;
-        storage[indexToDelete] = storage[size];
-        storage[size] = null;
+        System.out.println("Cannot delete resume with uuid " + uuid + " (does not exist).");
     }
 
     /**
@@ -76,5 +69,14 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    private int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
