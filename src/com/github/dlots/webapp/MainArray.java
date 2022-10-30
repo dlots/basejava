@@ -1,10 +1,14 @@
+package com.github.dlots.webapp;
+
+import com.github.dlots.webapp.model.Resume;
+import com.github.dlots.webapp.storage.ArrayStorage;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Interactive test for ArrayStorage implementation
- * (just run, no need to understand)
+ * Interactive test for com.github.dlots.webapp.storage.ArrayStorage implementation
  */
 public class MainArray {
     private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
@@ -32,7 +36,7 @@ public class MainArray {
                     break;
                 case "save":
                     r = new Resume();
-                    r.uuid = uuid;
+                    r.setUuid(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
