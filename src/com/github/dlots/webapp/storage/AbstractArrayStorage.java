@@ -1,5 +1,8 @@
 package com.github.dlots.webapp.storage;
 
+import com.github.dlots.webapp.exception.ExistsStorageException;
+import com.github.dlots.webapp.exception.NotExistsStorageException;
+import com.github.dlots.webapp.exception.StorageException;
 import com.github.dlots.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -22,8 +25,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         final int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Cannot get resume " + uuid + " (does not exist).");
-            return null;
+            throw new NotExistsStorageException(uuid);
         }
         return storage[index];
     }
@@ -38,21 +40,18 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume r) {
         final int index = getIndex(r.getUuid());
         if (index < 0) {
-            System.out.println("Cannot update resume " + r.getUuid() + " (does not exist).");
-            return;
+            throw new NotExistsStorageException(r.getUuid());
         }
         storage[index] = r;
     }
 
     public void save(Resume r) {
         if (size == storage.length) {
-            System.out.println("Cannot save resume " + r.getUuid() + " (storage is full).");
-            return;
+            throw new StorageException("Cannot save resume " + r.getUuid() + " (storage is full).", r.getUuid());
         }
         int index = getIndex(r.getUuid());
         if (index >= 0) {
-            System.out.println("Cannot save resume " + r.getUuid() + " (already exists).");
-            return;
+            throw new ExistsStorageException(r.getUuid());
         }
         index = - index - 1;
         insertAt(index, r);
@@ -62,8 +61,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         final int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Cannot delete resume " + uuid + " (does not exist).");
-            return;
+            throw new NotExistsStorageException(uuid);
         }
         deleteAt(index);
         size--;
