@@ -7,9 +7,9 @@ import com.github.dlots.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
     @Override
-    protected int getIndex(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
+    protected Integer getSearchKey(String uuid) {
+        for (int i = 0; i < size(); i++) {
+            if (doGet(i).getUuid().equals(uuid)) {
                 return i;
             }
         }
@@ -22,7 +22,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void deleteAt(int index) {
+    protected void deleteFromArrayAt(int index) {
         storage[index] = storage[size - 1];
     }
 }
