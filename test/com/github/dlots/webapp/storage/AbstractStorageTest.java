@@ -8,6 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import static com.github.dlots.webapp.storage.AbstractStorage.RESUME_COMPARATOR;
 
 public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
@@ -24,9 +28,9 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() {
         storage.clear();
-        savedResumes[0] = new Resume(UUID_1);
-        savedResumes[1] = new Resume(UUID_2);
-        savedResumes[2] = new Resume(UUID_3);
+        savedResumes[0] = new Resume(UUID_1, "Amogus");
+        savedResumes[1] = new Resume(UUID_2, "Geralt of Rivia");
+        savedResumes[2] = new Resume(UUID_3, "Shrek");
         storage.save(savedResumes[0]);
         storage.save(savedResumes[1]);
         storage.save(savedResumes[2]);
@@ -56,10 +60,18 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
-        Resume[] allResumes = storage.getAll();
-        Assert.assertEquals(3, allResumes.length);
-        Assert.assertTrue(Arrays.asList(allResumes).containsAll(Arrays.asList(savedResumes)));
+    public void getAllSorted() {
+        List<Resume> allResumes = storage.getAllSorted();
+        Assert.assertEquals(3, allResumes.size());
+        Assert.assertTrue(allResumes.containsAll(Arrays.asList(savedResumes)));
+        Iterator<Resume> iter = allResumes.iterator();
+        Resume current = iter.next();
+        while (iter.hasNext()) {
+            Resume next = iter.next();
+            if (RESUME_COMPARATOR.compare(current, next) > 0) {
+                Assert.fail();
+            }
+        }
     }
 
     @Test

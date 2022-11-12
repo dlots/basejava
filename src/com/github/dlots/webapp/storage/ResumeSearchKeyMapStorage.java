@@ -4,42 +4,44 @@ import com.github.dlots.webapp.model.Resume;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
-public class MapStorage extends AbstractStorage {
+public class ResumeSearchKeyMapStorage extends AbstractStorage {
     private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected String getSearchKey(String uuid) {
-        return uuid;
+    protected Resume getSearchKey(String uuid) {
+        return storage.get(uuid);
     }
 
     @Override
     protected boolean isExists(Object searchKey) {
-        return storage.containsKey((String) searchKey);
+        return searchKey != null;
     }
 
-    @Override protected boolean isStorageFull() {
+    @Override
+    protected boolean isStorageFull() {
         return false;
     }
 
     @Override
     protected void doSave(Object searchKey, Resume r) {
-        storage.put((String) searchKey, r);
+        storage.put(r.getUuid(), r);
     }
 
     @Override
     protected void doUpdate(Object searchKey, Resume r) {
-        storage.put((String) searchKey, r);
+        storage.replace(r.getUuid(), r);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return storage.get((String) searchKey);
+        return (Resume) searchKey;
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        storage.remove((String) searchKey);
+        storage.remove(((Resume) searchKey).getUuid());
     }
 
     @Override
@@ -48,8 +50,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
+    public Stream<Resume> getStream() {
+        return storage.values().stream();
     }
 
     @Override
