@@ -2,7 +2,9 @@ package com.github.dlots.webapp.model;
 
 import com.github.dlots.webapp.model.section.Section;
 import com.github.dlots.webapp.model.section.SectionType;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,7 +12,7 @@ import java.util.UUID;
 /**
  * com.github.dlots.webapp.model.Resume class
  */
-public class Resume {
+public class Resume implements Comparable<Resume> {
     // Unique identifier
     private final String uuid;
     private final String fullName;
@@ -68,5 +70,12 @@ public class Resume {
     @Override
     public String toString() {
         return uuid;
+    }
+
+    private static final Comparator<Resume> COMPARATOR =
+            Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+    @Override
+    public int compareTo(@NotNull Resume o) {
+        return COMPARATOR.compare(this, o);
     }
 }

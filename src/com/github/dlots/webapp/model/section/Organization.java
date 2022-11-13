@@ -43,9 +43,7 @@ public class Organization {
 
     @Override
     public String toString() {
-        return "Organization{" +
-                "homePage=" + homePage +
-                '}';
+        return "Organization(" + homePage + "," + positions + ")";
     }
 
     public static class Position {
@@ -84,6 +82,10 @@ public class Organization {
             return title;
         }
 
+        public String getDescription() {
+            return description;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -97,9 +99,9 @@ public class Organization {
             return Objects.hash(startDate, endDate, title, description);
         }
 
-        public String getDescription() {
-            return description;
+        @Override
+        public String toString() {
+            return "Position(" + startDate + ',' + endDate + ',' + title + ',' + description + ')';
         }
-
     }
 }

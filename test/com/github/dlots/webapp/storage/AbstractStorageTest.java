@@ -12,8 +12,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.dlots.webapp.storage.AbstractStorage.RESUME_COMPARATOR;
-
 public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -68,7 +66,7 @@ public abstract class AbstractStorageTest {
         Resume current = iter.next();
         while (iter.hasNext()) {
             Resume next = iter.next();
-            if (RESUME_COMPARATOR.compare(current, next) > 0) {
+            if (current.compareTo(next) > 0) {
                 Assert.fail();
             }
         }

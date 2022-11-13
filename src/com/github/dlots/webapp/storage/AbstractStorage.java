@@ -5,7 +5,6 @@ import com.github.dlots.webapp.exception.NotExistsStorageException;
 import com.github.dlots.webapp.exception.StorageException;
 import com.github.dlots.webapp.model.Resume;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -13,7 +12,6 @@ import java.util.stream.Stream;
 
 public abstract class AbstractStorage<SearchKey> implements Storage {
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
-    protected static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     @Override
     public void save(Resume r) {
@@ -42,7 +40,7 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         LOG.info("getAllSorted");
-        return getStream().sorted(RESUME_COMPARATOR).collect(Collectors.toList());
+        return getStream().sorted().collect(Collectors.toList());
     }
 
     @Override
