@@ -5,7 +5,7 @@ import com.github.dlots.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
 
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -28,8 +28,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExists(Object searchKey) {
-        return (Integer) searchKey >= 0;
+    protected boolean isExists(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     @Override
@@ -38,26 +38,26 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Object searchKey, Resume r) {
-        int index = (Integer) searchKey;
+    protected void doSave(Integer searchKey, Resume r) {
+        int index = searchKey;
         index = -index - 1;
         insertAt(index, r);
         size++;
     }
 
     @Override
-    protected void doUpdate(Object searchKey, Resume r) {
-        storage[(Integer) searchKey] = r;
+    protected void doUpdate(Integer searchKey, Resume r) {
+        storage[searchKey] = r;
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return storage[(Integer) searchKey];
+    protected Resume doGet(Integer searchKey) {
+        return storage[searchKey];
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-        deleteFromArrayAt((Integer) searchKey);
+    protected void doDelete(Integer searchKey) {
+        deleteFromArrayAt(searchKey);
         size--;
         storage[size] = null;
     }

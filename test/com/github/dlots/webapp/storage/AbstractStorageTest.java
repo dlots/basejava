@@ -1,5 +1,6 @@
 package com.github.dlots.webapp.storage;
 
+import com.github.dlots.webapp.ResumeTestData;
 import com.github.dlots.webapp.exception.ExistsStorageException;
 import com.github.dlots.webapp.exception.NotExistsStorageException;
 import com.github.dlots.webapp.model.Resume;
@@ -28,9 +29,9 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() {
         storage.clear();
-        savedResumes[0] = new Resume(UUID_1, "Amogus");
-        savedResumes[1] = new Resume(UUID_2, "Geralt of Rivia");
-        savedResumes[2] = new Resume(UUID_3, "Shrek");
+        savedResumes[0] = ResumeTestData.getFilledResume(UUID_1, "Amogus");
+        savedResumes[1] = ResumeTestData.getFilledResume(UUID_2, "Geralt of Rivia");
+        savedResumes[2] = ResumeTestData.getFilledResume(UUID_3, "Shrek");
         storage.save(savedResumes[0]);
         storage.save(savedResumes[1]);
         storage.save(savedResumes[2]);
@@ -76,18 +77,20 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        storage.update(new Resume(UUID_1));
+        Resume r = ResumeTestData.getFilledResume(UUID_1, "New Name");
+        storage.update(r);
+        Assert.assertEquals(r, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistsStorageException.class)
     public void updateNotExist() {
-        storage.update(new Resume("dummy"));
+        storage.update(ResumeTestData.getFilledResume("dummy"));
     }
 
     @Test
     public void save() {
         Assert.assertEquals(savedResumes.length, storage.size());
-        Resume r = new Resume();
+        Resume r = ResumeTestData.getFilledResume("");
         storage.save(r);
         Assert.assertEquals(savedResumes.length + 1, storage.size());
         Assert.assertEquals(r, storage.get(r.getUuid()));
@@ -95,7 +98,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = ExistsStorageException.class)
     public void saveExists() {
-        storage.save(new Resume(UUID_1));
+        storage.save(ResumeTestData.getFilledResume(UUID_1, ""));
     }
 
     @Test(expected = NotExistsStorageException.class)

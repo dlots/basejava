@@ -5,7 +5,7 @@ import com.github.dlots.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
     private final ArrayList<Resume> storage = new ArrayList<>();
 
     @Override
@@ -34,7 +34,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExists(Object searchKey) {
+    protected boolean isExists(Integer searchKey) {
         return searchKey != null;
     }
 
@@ -44,22 +44,22 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Object searchKey, Resume r) {
+    protected void doSave(Integer searchKey, Resume r) {
         storage.add(r);
     }
 
     @Override
-    protected void doUpdate(Object searchKey, Resume r) {
-        storage.set((Integer) searchKey, r);
+    protected void doUpdate(Integer searchKey, Resume r) {
+        storage.set(searchKey, r);
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return storage.get((Integer) searchKey);
+    protected Resume doGet(Integer searchKey) {
+        return storage.get(searchKey);
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-        storage.remove(((Integer) searchKey).intValue());
+    protected void doDelete(Integer searchKey) {
+        storage.remove(searchKey.intValue());
     }
 }

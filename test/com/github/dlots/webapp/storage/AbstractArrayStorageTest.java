@@ -1,7 +1,7 @@
 package com.github.dlots.webapp.storage;
 
+import com.github.dlots.webapp.ResumeTestData;
 import com.github.dlots.webapp.exception.StorageException;
-import com.github.dlots.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,12 +14,12 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     public void saveStorageOverflow() {
         while (storage.size() < AbstractArrayStorage.STORAGE_LIMIT) {
             try {
-                storage.save(new Resume());
+                storage.save(ResumeTestData.getFilledResume(""));
             }
             catch (StorageException e) {
                 Assert.fail("Overflow happened too soon");
             }
         }
-        storage.save(new Resume());
+        storage.save(ResumeTestData.getFilledResume(""));
     }
 }
