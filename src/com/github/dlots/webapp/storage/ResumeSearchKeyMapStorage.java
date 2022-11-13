@@ -20,11 +20,6 @@ public class ResumeSearchKeyMapStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    protected boolean isStorageFull() {
-        return false;
-    }
-
-    @Override
     protected void doSave(Resume searchKey, Resume r) {
         storage.put(r.getUuid(), r);
     }

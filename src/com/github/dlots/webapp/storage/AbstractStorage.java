@@ -2,7 +2,6 @@ package com.github.dlots.webapp.storage;
 
 import com.github.dlots.webapp.exception.ExistsStorageException;
 import com.github.dlots.webapp.exception.NotExistsStorageException;
-import com.github.dlots.webapp.exception.StorageException;
 import com.github.dlots.webapp.model.Resume;
 
 import java.util.List;
@@ -16,9 +15,6 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
     @Override
     public void save(Resume r) {
         LOG.info("save " + r);
-        if (isStorageFull()) {
-            throw new StorageException("Cannot save resume " + r.getUuid() + " (storage is full).", r.getUuid());
-        }
         final SearchKey searchKey = getNonExistingSearchKey(r.getUuid());
         doSave(searchKey, r);
     }
@@ -73,8 +69,6 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
     protected abstract SearchKey getSearchKey(String uuid);
 
     protected abstract boolean isExists(SearchKey searchKey);
-
-    protected abstract boolean isStorageFull();
 
     protected abstract void doSave(SearchKey searchKey, Resume r);
 

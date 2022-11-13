@@ -2,6 +2,7 @@ package com.github.dlots.webapp.model.section;
 
 import com.github.dlots.webapp.model.Link;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Objects;
 import static com.github.dlots.webapp.util.DateUtil.NOW;
 import static com.github.dlots.webapp.util.DateUtil.of;
 
-public class Organization {
+public class Organization implements Serializable {
     private final Link homePage;
     private final List<Position> positions;
 
@@ -46,7 +47,7 @@ public class Organization {
         return "Organization(" + homePage + "," + positions + ")";
     }
 
-    public static class Position {
+    public static class Position implements Serializable {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String title;

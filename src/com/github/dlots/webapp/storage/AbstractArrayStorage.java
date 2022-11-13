@@ -1,5 +1,6 @@
 package com.github.dlots.webapp.storage;
 
+import com.github.dlots.webapp.exception.StorageException;
 import com.github.dlots.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -33,12 +34,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected boolean isStorageFull() {
-        return size == storage.length;
-    }
-
-    @Override
     protected void doSave(Integer searchKey, Resume r) {
+        if (size == storage.length) {
+            throw new StorageException("Cannot save resume " + r.getUuid() + " (storage is full).", r.getUuid());
+        }
         int index = searchKey;
         index = -index - 1;
         insertAt(index, r);

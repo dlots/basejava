@@ -19,10 +19,6 @@ public class UUIDSearchKeyMapStorage extends AbstractStorage<String> {
         return storage.containsKey(searchKey);
     }
 
-    @Override protected boolean isStorageFull() {
-        return false;
-    }
-
     @Override
     protected void doSave(String searchKey, Resume r) {
         storage.put(searchKey, r);

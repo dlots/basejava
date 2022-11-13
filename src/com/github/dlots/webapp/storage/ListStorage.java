@@ -39,11 +39,6 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected boolean isStorageFull() {
-        return false;
-    }
-
-    @Override
     protected void doSave(Integer searchKey, Resume r) {
         storage.add(r);
     }
