@@ -4,6 +4,9 @@ import com.github.dlots.webapp.model.section.Section;
 import com.github.dlots.webapp.model.section.SectionType;
 import org.jetbrains.annotations.NotNull;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -13,6 +16,8 @@ import java.util.UUID;
 /**
  * com.github.dlots.webapp.model.Resume class
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
     // Unique identifier
@@ -20,6 +25,11 @@ public class Resume implements Comparable<Resume>, Serializable {
     private final String fullName;
     private final EnumMap<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final EnumMap<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+
+    public Resume() {
+        uuid = "";
+        fullName = "";
+    }
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);

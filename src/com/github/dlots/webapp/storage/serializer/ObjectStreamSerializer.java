@@ -7,14 +7,14 @@ import java.io.*;
 
 public class ObjectStreamSerializer implements StreamSerializer {
     @Override
-    public void doWrite(Resume r, OutputStream outputStream) throws IOException {
+    public void write(Resume r, OutputStream outputStream) throws IOException {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
             objectOutputStream.writeObject(r);
         }
     }
 
     @Override
-    public Resume doRead(InputStream inputStream) throws IOException {
+    public Resume read(InputStream inputStream) throws IOException {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(inputStream)) {
             return (Resume) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {

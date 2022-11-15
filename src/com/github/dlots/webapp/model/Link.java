@@ -1,11 +1,19 @@
 package com.github.dlots.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Link implements Serializable {
     private final String name;
     private final String url;
+
+    public Link() {
+        name = "";
+        url = "";
+    }
 
     public Link(String name, String url) {
         Objects.requireNonNull(name, "name must not be null");

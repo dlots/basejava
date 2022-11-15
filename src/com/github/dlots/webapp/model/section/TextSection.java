@@ -2,8 +2,12 @@ package com.github.dlots.webapp.model.section;
 
 import java.util.Objects;
 
-public class TextSection implements Section {
+public class TextSection extends Section {
     private final String content;
+
+    public TextSection() {
+        content = "";
+    }
 
     public TextSection(String content) {
         Objects.requireNonNull(content, "content must not be null");

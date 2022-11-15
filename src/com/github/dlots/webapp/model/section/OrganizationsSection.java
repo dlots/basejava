@@ -1,11 +1,19 @@
 package com.github.dlots.webapp.model.section;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class OrganizationsSection implements Section {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class OrganizationsSection extends Section {
     private final List<Organization> organizations;
+
+    OrganizationsSection() {
+        organizations = new ArrayList<>();
+    }
 
     public OrganizationsSection(Organization... organizations) {
         this(Arrays.asList(organizations));
@@ -25,7 +33,8 @@ public class OrganizationsSection implements Section {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrganizationsSection that = (OrganizationsSection) o;
-        return organizations.equals(that.organizations);
+        boolean os = organizations.equals(that.organizations);
+        return os;
 
     }
 

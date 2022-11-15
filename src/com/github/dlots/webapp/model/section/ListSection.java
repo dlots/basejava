@@ -1,11 +1,16 @@
 package com.github.dlots.webapp.model.section;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection implements Section {
+public class ListSection extends Section {
     private final List<String> items;
+
+    public ListSection() {
+        items = new ArrayList<>();
+    }
 
     public ListSection(String... items) {
         this(Arrays.asList(items));

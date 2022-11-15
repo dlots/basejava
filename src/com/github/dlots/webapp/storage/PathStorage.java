@@ -52,7 +52,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Path file, Resume r) {
         try {
-            streamSerializer.doWrite(r, new BufferedOutputStream(Files.newOutputStream(file)));
+            streamSerializer.write(r, new BufferedOutputStream(Files.newOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File write error", r.getUuid(), e);
         }
@@ -76,7 +76,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path file) {
         try {
-            return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(file)));
+            return streamSerializer.read(new BufferedInputStream(Files.newInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File read error", getFileName(file), e);
         }

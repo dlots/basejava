@@ -8,7 +8,7 @@ import org.junit.runners.Suite;
         ArrayStorageTest.class,
         SortedArrayStorageTest.class,
         ListStorageTest.class,
-        UUIDSearchKeyMapStorageTest.class,
+        UuidSearchKeyMapStorageTest.class,
         ResumeSearchKeyMapStorageTest.class,
         ObjectFileStorageTest.class,
         ObjectPathStorageTest.class
