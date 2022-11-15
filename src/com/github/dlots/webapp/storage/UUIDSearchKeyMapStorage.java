@@ -46,7 +46,7 @@ public class UUIDSearchKeyMapStorage extends AbstractStorage<String> {
     }
 
     @Override
-    public List<Resume> getAll() {
+    public List<Resume> getAllCopy() {
         return new ArrayList<>(storage.values());
     }
 

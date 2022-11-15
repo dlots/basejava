@@ -46,7 +46,7 @@ public class ResumeSearchKeyMapStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    public List<Resume> getAll() {
+    public List<Resume> getAllCopy() {
         return new ArrayList<>(storage.values());
     }
 
