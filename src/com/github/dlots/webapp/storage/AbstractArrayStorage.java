@@ -4,7 +4,7 @@ import com.github.dlots.webapp.exception.StorageException;
 import com.github.dlots.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
@@ -24,8 +24,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    public Stream<Resume> getStream() {
-        return Arrays.stream(Arrays.copyOf(storage, size));
+    public List<Resume> getAll() {
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     @Override

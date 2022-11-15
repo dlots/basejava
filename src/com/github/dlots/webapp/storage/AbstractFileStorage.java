@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
     private final File directory;
@@ -94,7 +93,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Stream<Resume> getStream() {
+    protected List<Resume> getAll() {
         File[] files = directory.listFiles();
         if (files == null) {
             throw new StorageException("Directory read error", null);
@@ -103,6 +102,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         for (File file : files) {
             list.add(doGet(file));
         }
-        return list.stream();
+        return list;
     }
 }

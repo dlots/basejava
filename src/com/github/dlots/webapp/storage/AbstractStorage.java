@@ -4,10 +4,9 @@ import com.github.dlots.webapp.exception.ExistsStorageException;
 import com.github.dlots.webapp.exception.NotExistsStorageException;
 import com.github.dlots.webapp.model.Resume;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class AbstractStorage<SearchKey> implements Storage {
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
@@ -36,7 +35,9 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         LOG.info("getAllSorted");
-        return getStream().sorted().collect(Collectors.toList());
+        List<Resume> all = getAll();
+        Collections.sort(all);
+        return all;
     }
 
     @Override
@@ -78,5 +79,5 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
 
     protected abstract void doDelete(SearchKey searchKey);
 
-    protected abstract Stream<Resume> getStream();
+    protected abstract List<Resume> getAll();
 }

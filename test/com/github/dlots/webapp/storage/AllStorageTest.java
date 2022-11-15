@@ -5,12 +5,13 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    ArrayStorageTest.class,
-    SortedArrayStorageTest.class,
-    ListStorageTest.class,
-    UUIDSearchKeyMapStorageTest.class,
-    ResumeSearchKeyMapStorageTest.class,
-    ObjectStreamStorageTest.class
+        ArrayStorageTest.class,
+        SortedArrayStorageTest.class,
+        ListStorageTest.class,
+        UUIDSearchKeyMapStorageTest.class,
+        ResumeSearchKeyMapStorageTest.class,
+        ObjectStreamStorageTest.class,
+        ObjectStreamPathStorageTest.class
 })
 public class AllStorageTest {
 }

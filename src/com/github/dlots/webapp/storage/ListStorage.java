@@ -3,7 +3,7 @@ package com.github.dlots.webapp.storage;
 import com.github.dlots.webapp.model.Resume;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage<Integer> {
     private final ArrayList<Resume> storage = new ArrayList<>();
@@ -14,8 +14,8 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    public Stream<Resume> getStream() {
-        return storage.stream();
+    public List<Resume> getAll() {
+        return storage;
     }
 
     @Override

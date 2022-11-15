@@ -2,9 +2,10 @@ package com.github.dlots.webapp.storage;
 
 import com.github.dlots.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class ResumeSearchKeyMapStorage extends AbstractStorage<Resume> {
     private final Map<String, Resume> storage = new HashMap<>();
@@ -45,8 +46,8 @@ public class ResumeSearchKeyMapStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    public Stream<Resume> getStream() {
-        return storage.values().stream();
+    public List<Resume> getAll() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
