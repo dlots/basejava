@@ -20,8 +20,8 @@ import static com.github.dlots.webapp.util.DateUtil.of;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private final Link homePage;
-    private final List<Position> positions;
 
+    private final List<Position> positions;
     public Organization() {
         homePage = new Link();
         positions = new ArrayList<>();
@@ -36,6 +36,14 @@ public class Organization implements Serializable {
         this.positions = positions;
     }
 
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,10 +55,6 @@ public class Organization implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(homePage, positions);
-    }
-
-    public List<Position> getPositions() {
-        return positions;
     }
 
     @Override
@@ -82,14 +86,14 @@ public class Organization implements Serializable {
             this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
-        Position(LocalDate startDate, LocalDate endDate, String title, String description) {
+        public Position(LocalDate startDate, LocalDate endDate, String title, String description) {
             Objects.requireNonNull(startDate, "startDate must not be null");
             Objects.requireNonNull(endDate, "endDate must not be null");
             Objects.requireNonNull(title, "title must not be null");
             this.startDate = startDate;
             this.endDate = endDate;
             this.title = title;
-            this.description = description;
+            this.description = description == null ? "" : description;
         }
 
         public LocalDate getStartDate() {

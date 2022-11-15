@@ -50,12 +50,20 @@ public class Resume implements Comparable<Resume>, Serializable {
         return fullName;
     }
 
+    public EnumMap<ContactType, String> getContacts() {
+        return contacts;
+    }
+
     public String getContact(ContactType type) {
         return contacts.get(type);
     }
 
     public void addContact(ContactType type, String content) {
         contacts.put(type, content);
+    }
+
+    public EnumMap<SectionType, Section> getSections() {
+        return sections;
     }
 
     public Section getSection(SectionType type) {
