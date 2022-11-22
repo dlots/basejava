@@ -4,6 +4,7 @@ import com.github.dlots.webapp.ResumeTestData;
 import com.github.dlots.webapp.exception.ExistsStorageException;
 import com.github.dlots.webapp.exception.NotExistsStorageException;
 import com.github.dlots.webapp.model.Resume;
+import com.github.dlots.webapp.util.Config;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class AbstractStorageTest {
+    protected static final String STORAGE_DIRECTORY = Config.get().getStorageDirectory();
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";

@@ -13,6 +13,14 @@ public class StorageException extends RuntimeException{
         this.uuid = uuid;
     }
 
+    public StorageException(Exception e) {
+        this(e.getMessage(), null, e);
+    }
+
+    public StorageException(String message) {
+        this(message, null);
+    }
+
     public String getUuid() {
         return uuid;
     }
