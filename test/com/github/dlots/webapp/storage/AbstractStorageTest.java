@@ -18,9 +18,13 @@ public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
+
+    private static final String UUID_4 = "uuid4";
     public static final Resume R1 = ResumeTestData.getFilledResume(UUID_1, "Amogus");
     public static final Resume R2 = ResumeTestData.getFilledResume(UUID_2, "Geralt of Rivia");
     public static final Resume R3 = ResumeTestData.getFilledResume(UUID_3, "Shrek");
+
+    public static final Resume R4 = new Resume(UUID_4, "No contacts");
 
     protected final Storage storage;
 
@@ -34,11 +38,12 @@ public abstract class AbstractStorageTest {
         storage.save(R1);
         storage.save(R2);
         storage.save(R3);
+        storage.save(R4);
     }
 
     @Test
     public void size() {
-        Assert.assertEquals(3, storage.size());
+        Assert.assertEquals(4, storage.size());
     }
 
     @Test
@@ -52,6 +57,7 @@ public abstract class AbstractStorageTest {
         Assert.assertEquals(R1, storage.get(UUID_1));
         Assert.assertEquals(R2, storage.get(UUID_2));
         Assert.assertEquals(R3, storage.get(UUID_3));
+        Assert.assertEquals(R4, storage.get(UUID_4));
     }
 
     @Test(expected = NotExistsStorageException.class)
@@ -62,8 +68,8 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> allResumes = storage.getAllSorted();
-        Assert.assertEquals(3, allResumes.size());
-        Assert.assertTrue(allResumes.containsAll(Arrays.asList(R1, R2, R3)));
+        Assert.assertEquals(4, allResumes.size());
+        Assert.assertTrue(allResumes.containsAll(Arrays.asList(R1, R2, R3, R4)));
         Iterator<Resume> iter = allResumes.iterator();
         Resume current = iter.next();
         while (iter.hasNext()) {
@@ -89,10 +95,10 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() {
-        Assert.assertEquals(3, storage.size());
+        Assert.assertEquals(4, storage.size());
         Resume r = ResumeTestData.getFilledResume("");
         storage.save(r);
-        Assert.assertEquals(4, storage.size());
+        Assert.assertEquals(5, storage.size());
         Assert.assertEquals(r, storage.get(r.getUuid()));
     }
 
@@ -103,9 +109,9 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistsStorageException.class)
     public void delete() {
-        Assert.assertEquals(3, storage.size());
+        Assert.assertEquals(4, storage.size());
         storage.delete(UUID_1);
-        Assert.assertEquals(2, storage.size());
+        Assert.assertEquals(3, storage.size());
         storage.get(UUID_1);
     }
 }

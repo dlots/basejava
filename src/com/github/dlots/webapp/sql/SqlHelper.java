@@ -1,6 +1,7 @@
 package com.github.dlots.webapp.sql;
 
 import com.github.dlots.webapp.exception.ExceptionUtil;
+import com.github.dlots.webapp.exception.StorageException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,6 +24,22 @@ public class SqlHelper {
             return executor.execute(preparedStatement);
         } catch (SQLException e) {
             throw ExceptionUtil.convertException(e);
+        }
+    }
+
+    public <T> T transactionalExecute(SqlTransaction<T> executor) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            try {
+                connection.setAutoCommit(false);
+                T result = executor.execute(connection);
+                connection.commit();
+                return result;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw ExceptionUtil.convertException(e);
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
         }
     }
 }

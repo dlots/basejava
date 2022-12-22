@@ -32,13 +32,14 @@ public class ResumeTestData {
             r = new Resume(fullName);
         }
 
-//        r.addContact(ContactType.PHONE, "+7(921) 855-0482");
-//        r.addContact(ContactType.SKYPE, "grigory.kislin");
-//        r.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
-//        r.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-//        r.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-//        r.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
-//        r.addContact(ContactType.PERSONAL_PAGE, "http://gkislin.ru/");
+        r.addContact(ContactType.PHONE, "+7(921) 855-0482");
+        r.addContact(ContactType.SKYPE, "grigory.kislin");
+        r.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        r.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        r.addContact(ContactType.GITHUB, "https://github.com/gkislin");
+        r.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+        r.addContact(ContactType.PERSONAL_PAGE, "http://gkislin.ru/");
+
 //        r.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
 //        r.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 //        r.addSection(SectionType.ACHIEVEMENTS, new ListSection(
