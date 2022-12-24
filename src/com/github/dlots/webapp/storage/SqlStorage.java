@@ -6,14 +6,15 @@ import com.github.dlots.webapp.model.ContactType;
 import com.github.dlots.webapp.model.Resume;
 import com.github.dlots.webapp.sql.SqlHelper;
 
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+// TODO: implement sections
+// join and split ListSection by \n
+// try to getAllSorted with two queries
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
 
@@ -35,15 +36,7 @@ public class SqlStorage implements Storage {
                 preparedStatement.setString(2, r.getFullName());
                 preparedStatement.execute();
             }
-            try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO contact (type, value, resume_uuid) VALUES (?, ?, ?)")) {
-                for (Map.Entry<ContactType, String> contact : r.getContacts().entrySet()) {
-                    preparedStatement.setString(1, contact.getKey().name());
-                    preparedStatement.setString(2, contact.getValue());
-                    preparedStatement.setString(3, r.getUuid());
-                    preparedStatement.addBatch();
-                }
-                preparedStatement.executeBatch();
-            }
+            insertContacts(connection, r);
             return null;
         });
     }
@@ -58,8 +51,28 @@ public class SqlStorage implements Storage {
                     throw new NotExistsStorageException(r.getUuid());
                 }
             }
+            deleteContacts(connection, r);
+            insertContacts(connection, r);
+            return null;
+        });
+    }
 
+    private void insertContacts(Connection connection, Resume r) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO contact (type, value, resume_uuid) VALUES (?, ?, ?)")) {
+            for (Map.Entry<ContactType, String> contact : r.getContacts().entrySet()) {
+                preparedStatement.setString(1, contact.getKey().name());
+                preparedStatement.setString(2, contact.getValue());
+                preparedStatement.setString(3, r.getUuid());
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+        }
+    }
 
+    private void deleteContacts(Connection connection, Resume r) {
+        sqlHelper.execute("DELETE FROM contact WHERE resume_uuid=?", preparedStatement -> {
+            preparedStatement.setString(1, r.getUuid());
+            preparedStatement.execute();
             return null;
         });
     }
@@ -79,12 +92,7 @@ public class SqlStorage implements Storage {
                     }
                     Resume r = new Resume(uuid, resultSet.getString("full_name"));
                     do {
-                        String value = resultSet.getString("value");
-                        if (value == null) {
-                            continue;
-                        }
-                        ContactType type = ContactType.valueOf(resultSet.getString("type"));
-                        r.addContact(type, value);
+                        addContact(resultSet, r);
                     } while (resultSet.next());
                     return r;
                 });
@@ -106,7 +114,8 @@ public class SqlStorage implements Storage {
         return sqlHelper.execute("" +
                         "SELECT * FROM resume r " +
                         "   LEFT JOIN contact c " +
-                        "       ON r.uuid = c.resume_uuid ",
+                        "       ON r.uuid = c.resume_uuid" +
+                        "       ORDER BY full_name, uuid",
                 preparedStatement -> {
                     ResultSet resultSet = preparedStatement.executeQuery();
                     ArrayList<Resume> resumes = new ArrayList<>();
@@ -117,16 +126,19 @@ public class SqlStorage implements Storage {
                             currentResumeUuid = currentTupleUuid;
                             resumes.add(new Resume(currentTupleUuid, resultSet.getString("full_name")));
                         }
-                        String value = resultSet.getString("value");
-                        if (value == null) {
-                            continue;
-                        }
-                        ContactType type = ContactType.valueOf(resultSet.getString("type"));
-                        resumes.get(resumes.size() - 1).addContact(type, value);
+                        addContact(resultSet, resumes.get(resumes.size() - 1));
                     }
                     Collections.sort(resumes);
                     return resumes;
                 });
+    }
+
+    private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
+        String value = resultSet.getString("value");
+        if (value == null) {
+            return;
+        }
+        resume.addContact(ContactType.valueOf(resultSet.getString("type")), value);
     }
 
     @Override

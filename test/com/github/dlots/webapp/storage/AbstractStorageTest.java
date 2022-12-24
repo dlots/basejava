@@ -3,6 +3,7 @@ package com.github.dlots.webapp.storage;
 import com.github.dlots.webapp.ResumeTestData;
 import com.github.dlots.webapp.exception.ExistsStorageException;
 import com.github.dlots.webapp.exception.NotExistsStorageException;
+import com.github.dlots.webapp.model.ContactType;
 import com.github.dlots.webapp.model.Resume;
 import com.github.dlots.webapp.util.Config;
 import org.junit.Assert;
@@ -83,6 +84,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         Resume r = ResumeTestData.getFilledResume(UUID_1, "New Name");
+        r.getContacts().put(ContactType.SKYPE, "88005553535");
         storage.update(r);
         Resume stored = storage.get(UUID_1);
         Assert.assertEquals(r, stored);
