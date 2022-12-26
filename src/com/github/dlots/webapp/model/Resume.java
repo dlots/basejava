@@ -22,7 +22,7 @@ public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
     // Unique identifier
     private final String uuid;
-    private final String fullName;
+    private String fullName;
     private final EnumMap<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final EnumMap<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
@@ -48,6 +48,10 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     public String getFullName() {
         return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public EnumMap<ContactType, String> getContacts() {
@@ -91,9 +95,9 @@ public class Resume implements Comparable<Resume>, Serializable {
     public String toString() {
         return uuid;
     }
-
     private static final Comparator<Resume> COMPARATOR =
             Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+
     @Override
     public int compareTo(@NotNull Resume o) {
         return COMPARATOR.compare(this, o);
